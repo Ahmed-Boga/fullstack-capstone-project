@@ -1,7 +1,7 @@
-// const express = require('express');
+const express = require('express');
 const { ObjectId } = require('mongodb'); // Import ObjectId to work with MongoDB IDs
-// const router = express.Router();
-// const connectToDatabase = require('./path/to/database/connection'); // Adjust path as needed
+const router = express.Router();
+const connectToDatabase = require('../models/db');
 
 // Separate function to retrieve all gifts
 async function fetchAllGifts() {

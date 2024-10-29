@@ -2,16 +2,18 @@
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
-// MongoDB connection URL and options
 const url = process.env.MONGO_URL;
+
+// console.log("MongoDB URL:", url); // Add this line to check the connection string
+
 const dbName = "giftdb";
 let dbInstance = null;
 
 // MongoDB connection options
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-};
+// const options = {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// };
 
 async function connectToDatabase() {
     try {
@@ -19,7 +21,7 @@ async function connectToDatabase() {
             return dbInstance;
         }
 
-        const client = new MongoClient(url, options);
+        const client = new MongoClient(url);
 
         // Connect to MongoDB
         await client.connect();
