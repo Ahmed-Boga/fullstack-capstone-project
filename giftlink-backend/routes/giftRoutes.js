@@ -1,58 +1,72 @@
+// const express = require('express');
+const { ObjectId } = require('mongodb'); // Import ObjectId to work with MongoDB IDs
+// const router = express.Router();
+// const connectToDatabase = require('./path/to/database/connection'); // Adjust path as needed
+
+// Separate function to retrieve all gifts
+async function fetchAllGifts() {
+    const db = await connectToDatabase();
+    const collection = db.collection("gifts");
+    return collection.find({}).toArray();
+}
+
+// Route handler for fetching all gifts
 router.get('/', async (req, res) => {
     try {
-        // Task 1: Connect to MongoDB and store connection to db constant
-        // const db = {{insert code here}}
+        const gifts = await fetchAllGifts();
 
-        // Task 2: use the collection() method to retrieve the gift collection
-        // {{insert code here}}
-
-        // Task 3: Fetch all gifts using the collection.find method. Chain with toArray method to convert to JSON array
-        // const gifts = {{insert code here}}
-
-        // Task 4: return the gifts using the res.json method
-        res.json(/* {{insert code here}} */);
-    } catch (e) {
-        console.error('Error fetching gifts:', e);
-        res.status(500).send('Error fetching gifts');
-    }
-});
-
-router.get('/:id', async (req, res) => {
-    try {
-        // Task 1: Connect to MongoDB and store connection to db constant
-        // const db = {{insert code here}}
-
-        // Task 2: use the collection() method to retrieve the gift collection
-        // {{insert code here}}
-
-        const id = req.params.id;
-
-        // Task 3: Find a specific gift by ID using the collection.fineOne method and store in constant called gift
-        // {{insert code here}}
-
-        if (!gift) {
-            return res.status(404).send('Gift not found');
+        if (!gifts.length) {
+            return res.status(404).json({ message: 'No gifts found' });
         }
 
-        res.json(gift);
-    } catch (e) {
-        console.error('Error fetching gift:', e);
-        res.status(500).send('Error fetching gift');
+        res.json(gifts);
+    } catch (error) {
+        console.error('Error fetching gifts:', error);
+        res.status(500).json({ error: 'An internal server error occurred while fetching gifts' });
     }
 });
 
-
-
-// Add a new gift
-router.post('/', async (req, res, next) => {
+// Route handler for fetching a gift by ID
+router.get('/:id', async (req, res) => {
     try {
         const db = await connectToDatabase();
         const collection = db.collection("gifts");
-        const gift = await collection.insertOne(req.body);
+        const giftId = req.params.id;
 
-        res.status(201).json(gift.ops[0]);
-    } catch (e) {
-        next(e);
+        // Convert ID to ObjectId to ensure valid querying
+        if (!ObjectId.isValid(giftId)) {
+            return res.status(400).json({ message: 'Invalid gift ID format' });
+        }
+
+        const gift = await collection.findOne({ _id: new ObjectId(giftId) });
+
+        if (!gift) {
+            return res.status(404).json({ message: 'Gift not found' });
+        }
+
+        res.json(gift);
+    } catch (error) {
+        console.error('Error fetching gift:', error);
+        res.status(500).json({ error: 'An internal server error occurred while fetching the gift' });
+    }
+});
+
+// Route handler for adding a new gift
+router.post('/', async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        const collection = db.collection("gifts");
+
+        const result = await collection.insertOne(req.body);
+
+        if (!result.acknowledged) {
+            return res.status(500).json({ message: 'Failed to add the gift' });
+        }
+
+        res.status(201).json({ message: 'Gift added successfully', gift: result.ops[0] });
+    } catch (error) {
+        console.error('Error adding new gift:', error);
+        res.status(500).json({ error: 'An internal server error occurred while adding the gift' });
     }
 });
 
