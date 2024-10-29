@@ -19,20 +19,20 @@
 //     );
 // }
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className="navbar-brand" to="/">GiftLink</Link> 
+            <Link className="navbar-brand" to="/">GiftLink</Link>
 
-            <button 
-                className="navbar-toggler" 
-                type="button" 
-                data-toggle="collapse" 
-                data-target="#navbarNav" 
-                aria-controls="navbarNav" 
-                aria-expanded="false" 
+            <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
                 aria-label="Toggle navigation"
             >
                 <span className="navbar-toggler-icon"></span>
@@ -45,6 +45,9 @@ const Navbar = () => {
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/app">Gifts</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/app/search">Search</Link>
                     </li>
                 </ul>
             </div>
