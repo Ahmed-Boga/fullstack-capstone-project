@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const pinoLogger = require('./logger');
-
 const connectToDatabase = require('./models/db');
 const {loadData} = require("./util/import-mongo/index");
 
@@ -16,7 +15,7 @@ const port = 3060;
 connectToDatabase().then(() => {
     pinoLogger.info('Connected to DB');
 })
-    .catch((e) => console.error('Failed to connect to DB', e));
+.catch((e) => console.error('Failed to connect to DB', e));
 
 
 app.use(express.json());
@@ -28,6 +27,8 @@ const giftRoutes = require('./routes/giftRoutes');
 // import the searchRoutes and store in a constant called searchRoutes
 const searchRoutes = require('./routes/searchRoutes');
 
+// import the authRoutes and store in a constant called authRoutes
+const authRoutes = require('./routes/authRoutes');
 
 const pinoHttp = require('pino-http');
 const logger = require('./logger');
@@ -40,6 +41,10 @@ app.use('/api/gifts', giftRoutes);
 
 // add the searchRoutes to the server by using the app.use() method.
 app.use('/api/search', searchRoutes);
+
+// add the authRoutes to the server by using the app.use() method.
+app.use('/api/auth', authRoutes);
+
 
 
 // Global Error Handler
