@@ -49,5 +49,6 @@ jobs:
         run: |
           cd giftlink-frontend
           npm install
+          npm audit fix
           npm run build
           echo "Client-side build successfully"
