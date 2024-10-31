@@ -1,3 +1,4 @@
+/*jshint esversion: 8 */
 const express = require('express');
 const { ObjectId } = require('mongodb'); // Import ObjectId to work with MongoDB IDs
 const router = express.Router();
