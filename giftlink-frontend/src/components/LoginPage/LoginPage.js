@@ -1,4 +1,3 @@
-// import { urlConfig } from '../../config';
 import React, { useState, useEffect } from 'react'; 
 import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
