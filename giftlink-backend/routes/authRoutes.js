@@ -109,7 +109,7 @@ router.post('/login', async (req, res) => {
 router.put(
     '/update',
     [
-        // Task 1: Input validation for `name`
+        // Input validation for `name`
         body('name').isString().withMessage('Name must be a string').notEmpty().withMessage('Name is required'),
     ],
     async (req, res) => {
