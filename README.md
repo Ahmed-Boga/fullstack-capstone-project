@@ -178,7 +178,7 @@ Standalone service for sentiment analysis using the `natural` library.
 
 ## Contributors
 
-- **Your Name**: Full-stack developer and project maintainer.
+- **Ahmed**: Full-stack developer and project maintainer.
 
 ---
 
